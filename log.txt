@@ -1,0 +1,2 @@
+Target hari ini 30 November 2024:
+Membuat seeds, Membuat Dokummentasi Postman, Membuat Unit Test

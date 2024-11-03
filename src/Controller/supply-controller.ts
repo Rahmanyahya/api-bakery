@@ -37,8 +37,8 @@ export class SupplyController {
 
    static async SearchSupply (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-        const keywoard: SearchSupplly = req.query.search as SearchSupplly
-        const response = await SupplyService.SearchProduct(keywoard)
+        const keyword: SearchSupplly = req.query as SearchSupplly
+        const response = await SupplyService.SearchProduct(keyword)
         return res.status(200).json({data: response})
     } catch (e) {
         next(e)

@@ -37,8 +37,8 @@ export class MaterialController {
 
     static async SearchMaterial (req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
-            const searchRequest: SearchMaterial = req.query as SearchMaterial
-            const response = await MaterialService.SearchMaterial(searchRequest)
+            const keyword: SearchMaterial = req.query as SearchMaterial
+            const response = await MaterialService.SearchMaterial(keyword)
             return res.status(200).json({data: response})
         } catch (e) {
             next(e)

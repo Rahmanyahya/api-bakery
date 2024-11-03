@@ -9,9 +9,8 @@ export class CompesitionValidation {
 
   static readonly UPDATE_COMPESITION: ZodType = z.object({
     id: z.number().min(1).positive(),
-    cake_id: z.number().min(1).positive(),
-    material_id: z.number().min(1).positive(),
-    quantity: z.number().min(1).positive(),
+    material_id: z.number().min(1).positive().optional(),
+    quantity: z.number().min(1).positive().optional(),
   });
 
   static readonly DELETE_COMPESITION: ZodType = z.object({
@@ -19,6 +18,6 @@ export class CompesitionValidation {
   });
 
   static readonly SEARCH_COMPESITION: ZodType = z.object({
-    keywoard: z.string().min(1),
+    keyword: z.string().min(1),
   });
 }

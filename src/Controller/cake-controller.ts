@@ -23,10 +23,11 @@ export class CakeController {
         try {
             const UpdateCakeRequest: UpdateCakeRequest = req.body as UpdateCakeRequest
             UpdateCakeRequest.id = Number(req.params.id)
-            UpdateCakeRequest.cake_image = req.file!.filename || ""
+            UpdateCakeRequest.cake_image = req.file == undefined?  undefined : req.file!.filename
             const response = await CakeService.UpdateCake(UpdateCakeRequest)
             return res.status(200).json({ data: response });
         } catch (e) {
+            console.log(e)
             req.file == undefined? next(e) : (
                 deleteFile(req.file!.filename),
                 next(e)
@@ -55,8 +56,8 @@ export class CakeController {
 
     static async SearchCake (req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
-            const searchRequest: SearchCake = req.query as SearchCake
-            const response = await CakeService.SearchCake(searchRequest)
+            const keyword: SearchCake = req.query as SearchCake
+            const response = await CakeService.SearchCake(keyword)
             return res.status(200).json({ data: response });
         } catch (e) {
             next(e)

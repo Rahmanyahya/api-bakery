@@ -30,7 +30,7 @@ Response Body (Success):
 Response Body (Failed):
 ``` json 
 {
-    "errors": "something went wrong, ...."
+    "errors": "something went wrong, material is already exist"
 }
 ```
 
@@ -67,7 +67,7 @@ Response Body (success):
 Response Body (failed):
 ``` json 
 {
-    "errors": "something went wrong, ...",
+    "errors": "something went wrong, Material not found",
 }
 ```
 
@@ -90,7 +90,7 @@ Response Body (success):
 Response Body (Failed):
 ``` json 
 {
-    "errors": "something went wrong, ..."
+    "errors": "something went wrong, Material not found"
 }
 ```
 
@@ -123,6 +123,42 @@ Response (Success):
 Response Body (Failed):
 ``` json 
 {
-    "errors": "something went wrong, ..."
+    "errors": "something went wrong, Material is empty"
+}
+```
+## SEARCH MATERIAL
+Endpoint: GET /api/material/filter
+
+Request Header:
+- X-API-TOKEN: Token
+
+Request Params:
+- keyword
+
+Response Body (success):
+``` json 
+{
+    "data": [
+{
+    "id": 1,
+    "material_name": "Baking powder", 
+    "material_price": 2000, 
+    "material_type": "Powder" 
+ },
+{
+    "id": 2,
+    "material_name": "margarin",
+    "material_price": 5000,
+    "material_type": "Solid"
+}
+
+    ]
+}
+```
+
+Response Body (Failed):
+``` json 
+{
+    "errors": "something went wrong, Material not found"
 }
 ```

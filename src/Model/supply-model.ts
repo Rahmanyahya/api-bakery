@@ -13,7 +13,7 @@ export type UpdateSupply = {
     supply_date?: Date
     supplier_id?: number
     user_id?: number
-    detail_supply: UpdateDetailsSupply[]
+    detail_supply?: UpdateDetailsSupply[]
 }
 
 export type DeleteSupply = {

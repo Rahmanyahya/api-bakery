@@ -2,7 +2,7 @@
 
 ## CREATE USER
 
-Endpoint: POST /api/users/
+Endpoint: POST /api/user/
 
 Request Headers:
 - X-API-TOKEN: Token
@@ -21,6 +21,7 @@ Response body (Success):
 ``` json 
 {
     "data": {
+        "id": 1,
         "user_name": "Yahya",
         "user_email": "yahya@gmail.com",
         "user_role": "cashier",
@@ -31,13 +32,13 @@ Response body (Success):
 Response body (failed) example:
 ```json 
 {
-    "error": "user_name is required"
+    "error": "something went wrong, user is already exists"
 }
 ```
 
 ## UPDATE USER
 
-Endpoint: PUT /api/users/:id
+Endpoint: PUT /api/user/:id
 
 Request Params:
 - id
@@ -59,6 +60,7 @@ Response body (succes):
 ``` json
 {
     "data": {
+        "id": 1,
         "user_name": "rahman", 
         "user_email": "rahman@gmail.com", 
         "user_password": "9876543", 
@@ -70,12 +72,12 @@ Response body (succes):
 Response body (failed):
 ``` json 
 {
-    "erors": "something went wrong, ...."
+    "erors": "something went wrong, user not found"
 }
 ```
 
 ## DELETE USER
-Endpoint: DELETE /api/users/:id
+Endpoint: DELETE /api/user/:id
 
 Request Params:
 - id
@@ -93,12 +95,12 @@ Response Body (Succes):
 Response Body (failed):
 ``` json 
 {
-    "message": "User not found"
+    "message": "something went wrong, user not found"
 }
 ```
 
 ## GET USER
-Endpoint: GET /api/users/
+Endpoint: GET /api/user/
 
 Request Params:
 - id
@@ -129,6 +131,39 @@ Response Body:
 Response Body (failed):
 ``` json 
 {
-    "message": "no users registered"
+    "message": "something went wrong, no user registered"
+}
+```
+
+## SEARCH USER
+Endpoint: GET /api/user/filter
+
+Request Query:
+- keyword
+
+Response Body (Failed):
+``` json 
+{
+    "message": "something went wrong, no user registered"
+}
+```
+
+Response Body (Success): 
+``` json 
+{
+    "data": [
+        {
+            "id": 1,
+            "user_name": "yahya",
+            "user_email": "yahya@gmail.com",
+            "user_role": "Cashier"
+        },
+        {
+            "id": 2,
+            "user_name": "Rahman",
+            "user_email": "rahman@gmail.com",
+            "user_role": "Admin"
+        }
+    ]
 }
 ```

@@ -45,8 +45,8 @@ export class SupplierController {
 
    static async SearchSupplier (req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-        const keywoard: SearchSupplier = req.query.search as SearchSupplier
-        const response = await SupplierService.SearchSupplier(keywoard)
+        const keyword: SearchSupplier = req.query as SearchSupplier
+        const response = await SupplierService.SearchSupplier(keyword)
         return res.status(200).json({data: response})
     } catch (e) {
         next(e)

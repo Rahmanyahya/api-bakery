@@ -69,9 +69,9 @@ export class CompositionController {
     next: NextFunction,
   ): Promise<any> {
     try {
-      const keywoard: SearchComposition = req.query as SearchComposition;
-      const response = await CompositionService.SearchComposition(keywoard);
-      return res.status(200).json(response);
+      const keyword: SearchComposition = req.query as SearchComposition;
+      const response = await CompositionService.SearchComposition(keyword);
+      return res.status(200).json({data: response});
     } catch (e) {
       next(e);
     }

@@ -46,7 +46,7 @@ export class UserController {
 
     static async SearchUsers (req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
-            const keyword: SearchUser = req.query.search as SearchUser
+            const keyword: SearchUser = req.query as SearchUser
             const response = await UserService.SearchUsers(keyword)
             return res.status(200).json({data: response})
         } catch (e) {

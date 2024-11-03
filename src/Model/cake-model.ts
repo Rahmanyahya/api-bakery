@@ -12,7 +12,12 @@ export type CreateCakeRequest = {
 
 export type UpdateCakeRequest = {
     id: number
-} & Partial<CreateCakeRequest>
+    cake_name: string,
+    cake_price: number,
+    cake_flavour: string,
+    cake_image: string | undefined,
+    best_before: Date
+} 
 
 export type DeleteCake = {
     cake_id: number
@@ -39,20 +44,26 @@ export type CakeResponse = {
     compositions: CompositionResponse[]
 }
 
-export async function toCakeResponseWithComposition(cake: Cake)  {
-    const compotition = await prisma.composition.findMany({where: {id: cake.id}, include: {material: {select: {material_name: true}}}})
+export async function toCakeResponseWithComposition(cake: Cake) {
+    const compositions = await prisma.composition.findMany({
+        where: { cake_id: cake.id },
+        include: { material: { select: { material_name: true } } }
+    });
+
     return {
+        id: cake.id,
         cake_name: cake.cake_name,
         cake_price: cake.cake_price,
         cake_flavour: cake.cake_flavour,
         cake_image: cake.cake_image,
         best_before: cake.best_before,
-        compositions: compotition.map(item => ({
-            material_name: item.material.material_name, 
+        compositions: compositions.map(item => ({
+            material_name: item.material.material_name,
             quantity: item.quantity
         }))
-    } 
+    };
 }
+
 
 export async function toCakeResponse(cake: Cake) {
     return {

@@ -19,6 +19,7 @@ Response Body (Success):
 ``` json 
 {
     "data": {
+        "id": 1,
         "supplier_name": "Agus",
         "supplier_address": "Sawojajar Malang",
         "supplier_phone": "08912345678" 
@@ -29,7 +30,7 @@ Response Body (Success):
 Response Body (Failed):
 ``` json 
 {
-    "error": "Something went wrong, ..."
+    "error": "Something went wrong, Supplier is already exist"
 }
 ```
 
@@ -55,6 +56,7 @@ Response Body (Succes):
 ``` json 
 {
      "data": {
+        "id": 1,
         "supplier_name": "Agung",
         "supplier_address": "Sawojajar Malang",
         "supplier_phone": "08912345678" 
@@ -65,7 +67,7 @@ Response Body (Succes):
 Response Body (Failed):
 ``` json 
 {
-    "error": "Something went wreng, ...."
+    "error": "Something went wreng, Supplier not found"
 }
 ```
 
@@ -88,7 +90,7 @@ Response Body (Succes):
 Response Body (Failed):
 ``` json 
 {
-    "errors": "something went wrong, ...."
+    "errors": "something went wrong, Supplier not found"
 }
 ```
 
@@ -101,7 +103,42 @@ Request Header:
 Response body (Failed): 
 ``` json
 {
-    "error": "Something went wrong, ...."
+    "error": "Something went wrong, No supplier registered"
+}
+```
+Response body (Success):
+``` json 
+{
+    "data": [
+        {
+           "id": 1,
+           "supplier_name": "Agung",
+           "supplier_address": "Sawojajar Malang",
+           "supplier_phone": "08912345678" 
+        },
+        {
+            "id": 2,
+            "supplier_name": "Ega",
+            "supplier_address": "Tamanan Tulungagung",
+            "supplier_phone": "08998765432"
+        }
+    ]
+}
+``` 
+
+## Search Supplier
+Endpoint: GET /api/suplier/search
+
+Request Header:
+- X-API-TOKEN: Token
+
+Request Query:
+- keyword
+
+Response Body (Failed): 
+``` json 
+{
+     "error": "Something went wrong, No supplier listed"
 }
 ```
 Response body (Success):

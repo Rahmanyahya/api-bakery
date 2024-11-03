@@ -1,5 +1,4 @@
 export type CreateOrderDetails = {
-    order_id: number,
     cake_id: number,
     quantity: number,
 }

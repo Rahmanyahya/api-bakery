@@ -42,6 +42,7 @@ export async function toOrderResponse(id: number) {
     },0)
 
     return {
+        id: orders!.id,
         order_date: orders!.order_date,
         user_name: orders!.user.user_name,
         status: orders!.status,

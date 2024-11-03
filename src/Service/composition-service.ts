@@ -20,6 +20,17 @@ export class CompositionService {
       req,
     );
 
+    const isCakeExist = await prisma.cake.count({
+      where: { id: CreateCompesitionRequest.cake_id },
+    });
+
+    if (isCakeExist == 0) throw new ErrorHandler(404, "Cake not found");
+    
+    const isMaterialExist = await prisma.material.count({
+      where: { id: CreateCompesitionRequest.material_id },
+    });
+    if (isMaterialExist == 0) throw new ErrorHandler(404, "Material not found");
+
     const isCompesitionExist = await prisma.composition.count({
       where: {
         AND: [
@@ -29,8 +40,7 @@ export class CompositionService {
       },
     });
 
-    if (isCompesitionExist != 0)
-      throw new ErrorHandler(401, `Compesition is exist`);
+    if (isCompesitionExist != 0) throw new ErrorHandler(401, `Compesition is exist`);
 
     const CompesitionData = await prisma.composition.create({
       data: CreateCompesitionRequest,
@@ -60,6 +70,15 @@ export class CompositionService {
       RequestUpdateCompesition.material_id ?? isCompesitionExits.material_id;
     RequestUpdateCompesition.quantity =
       RequestUpdateCompesition.quantity ?? isCompesitionExits.quantity;
+
+    const isMaterialAdded = await prisma.composition.count({where: {
+      AND: [
+        {material_id: RequestUpdateCompesition.material_id},
+        {cake_id: RequestUpdateCompesition.cake_id}
+      ]
+    }})
+
+    if (isMaterialAdded != 0) throw new ErrorHandler(400, "material already added in this composition")
 
     const newDataCompesition = await prisma.composition.update({
       where: {
@@ -102,14 +121,14 @@ export class CompositionService {
     const data = await prisma.composition.findMany({
       where: {
         material: {
-          material_name: { contains: SearchRequest.keywoard },
+          material_name: { contains: SearchRequest.keyword },
         },
       },
     });
 
     return data.length > 0
       ? await Promise.all(data.map((item) => toCompositionResponse(item)))
-      : new ErrorHandler(404, "data noe found");
+      : new ErrorHandler(404, "data not found");
   }
 
   static async getAllComposition(): Promise<CompositionResponse[] | Error> {

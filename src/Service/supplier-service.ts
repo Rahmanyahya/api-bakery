@@ -49,7 +49,8 @@ export class SupplierService {
 
     static async GetAllSupplier (): Promise<SupplierResponse[] | Error> {
         const suppliers = await prisma.supplier.findMany()
-        return suppliers.length > 0? suppliers.map(toSupplierResponse) : new ErrorHandler(404,"supplier not found")
+        if (suppliers.length == 0) throw new ErrorHandler(404, "No supplier listed")
+        return suppliers.map(toSupplierResponse)
     }
 
     static async SearchSupplier(req: SearchSupplier): Promise<SupplierResponse[] | Error> {
@@ -59,7 +60,9 @@ export class SupplierService {
             where: { supplier_name: { contains: searchSupplierRequest.keyword } },
         })
 
-        return suppliers.length > 0? suppliers.map(toSupplierResponse) : new ErrorHandler(404,"supplier not found")
+        if (suppliers.length == 0) throw new ErrorHandler(404, "No supplier match")
+
+        return  suppliers.map(toSupplierResponse) 
     }
 
 }

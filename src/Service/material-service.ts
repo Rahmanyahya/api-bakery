@@ -24,12 +24,10 @@ export class MaterialService {
 
     static async UpdateMaterial (req: UpdateMaterial): Promise<MaterialResponse> {
         const updateMaterialRequest = Validation.validate(MaterialValidation.UPDATE_MATERIAL, req)
-        
         const isMaterialExist = await prisma.material.findFirst({where: {id: updateMaterialRequest.id}})
-        
         if (!isMaterialExist) throw new ErrorHandler(404, "Material not found")
             
-        const result = await prisma.material.update({where: {id: updateMaterialRequest.id}, data: updateMaterialRequest})
+        const result = await prisma.material.update({where: {id: isMaterialExist.id}, data: updateMaterialRequest})
         
         return toMaterialResponse(result)
     }
@@ -48,15 +46,15 @@ export class MaterialService {
 
     static async SearchMaterial (req: SearchMaterial): Promise<MaterialResponse[] | Error> {
         const searchMaterialRequest = Validation.validate(MaterialValidation.SEARCH_MATERIAL, req)
-    
         const materials = await prisma.material.findMany({where: {material_name: {contains: searchMaterialRequest.keyword}}})
-
-        return materials.length > 0? materials.map(toMaterialResponse) : new ErrorHandler(404,"material not found")
+        if (materials.length == 0) throw new ErrorHandler(404,"Material not found")
+        return materials.map(toMaterialResponse)
     }
 
     static async GetAllMaterials (): Promise<MaterialResponse[] | Error> {
         const materials = await prisma.material.findMany()
-        return materials.length > 0? materials.map(toMaterialResponse) : new ErrorHandler(404,"material not found")
+        if (materials.length == 0) throw new ErrorHandler(404,"Material is empty")
+        return materials.map(toMaterialResponse)
     }
 
 }

@@ -1,7 +1,5 @@
 export type CreateDetailsSupply = {
-    supply_id: number,
     material_id: number,
-    material_price: number,
     quantity: number
 }
 

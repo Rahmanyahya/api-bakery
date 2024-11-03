@@ -16,7 +16,7 @@ export class UserService {
             }
         })
 
-        if (isUserExist != 0) throw new ErrorHandler(400, "user already exists")
+        if (isUserExist != 0) throw new ErrorHandler(400, "user is already exists")
         
         userAddRequest.user_password = await bcrypt.hash(userAddRequest.user_password,10)
 
@@ -32,18 +32,18 @@ export class UserService {
 
         const dataUser = await prisma.user.findFirst({
             where: {
-                user_email: userUpdateRequest.user_email
+               id: userUpdateRequest.id
             }
         })
 
         if (!dataUser) throw new ErrorHandler(404, "user not found")
         
-        userUpdateRequest.user_email = userUpdateRequest.user_email ? userUpdateRequest.user_email : dataUser.user_email;
-        userUpdateRequest.user_name = userUpdateRequest.user_name ? userUpdateRequest.user_name : dataUser.user_email
-        userUpdateRequest.user_role = userUpdateRequest.user_role? userUpdateRequest.user_role : dataUser.user_role
-        userUpdateRequest.user_password = userUpdateRequest.user_password? await bcrypt.hash(userUpdateRequest.user_password,10) : dataUser.user_password
+        userUpdateRequest.user_email = userUpdateRequest.user_email ?? dataUser.user_email;
+        userUpdateRequest.user_name =  userUpdateRequest.user_name ?? dataUser.user_email
+        userUpdateRequest.user_role =  userUpdateRequest.user_role ?? dataUser.user_role
+        userUpdateRequest.user_password = await bcrypt.hash(String(userUpdateRequest.user_password),10) ?? dataUser.user_password
         
-        const result = await prisma.user.update({where: {user_email: dataUser.user_email}, data: userUpdateRequest})
+        const result = await prisma.user.update({where: {id: userUpdateRequest.id}, data: userUpdateRequest})
 
         return toUserResponse(result)
     }
@@ -62,7 +62,9 @@ export class UserService {
 
     static async GetAllUser (): Promise<UserResponse[] | Error> {
         const users = await prisma.user.findMany()
-        return users.length > 0 ? users.map(toUserResponse) : new ErrorHandler(404, "user not found")
+        if (users.length == 0) throw new ErrorHandler(404, "no user registered")
+
+        return users.map(toUserResponse)
     }
 
     static async SearchUsers (req: SearchUser): Promise<UserResponse[] | Error> {
@@ -77,7 +79,9 @@ export class UserService {
             }
         })
 
-        return users.length > 0? users.map(toUserResponse) : new ErrorHandler(404, "user not found")
+        if (users.length == 0) throw new ErrorHandler(404, "no user registered")
+
+        return users.map(toUserResponse)
     }
 
 }

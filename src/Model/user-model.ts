@@ -1,6 +1,7 @@
 import {role, User} from "@prisma/client"
 
 export type UserResponse = {
+    id: number
     user_name: string;
     user_email: string;
     user_role: role;
@@ -29,8 +30,9 @@ export type SearchUser = {
     keyword: string
 } 
 
-export function toUserResponse(user: CreateUserRequest) {
+export function toUserResponse(user: User) {
     return {
+        id: user.id,
         user_name: user.user_name,
         user_email: user.user_email,
         user_role: user.user_role,

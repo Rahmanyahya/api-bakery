@@ -19,7 +19,7 @@ privateApi.delete(
   UserController.DeleteUser,
 );
 privateApi.get("/api/user", checkJWT.forAdmin, UserController.GetAllUser);
-privateApi.get("/api/user", checkJWT.forAdmin, UserController.SearchUsers);
+privateApi.get("/api/user/filter", checkJWT.forAdmin, UserController.SearchUsers);
 
 // CRUD MATERIAL
 privateApi.post(
@@ -40,10 +40,10 @@ privateApi.delete(
 privateApi.get(
   "/api/material",
   checkJWT.forAdmin,
-  MaterialController.SearchMaterial,
+  MaterialController.GetAllMaterials,
 );
 privateApi.get(
-  "/api/material",
+  "/api/material/filter",
   checkJWT.forAdmin,
   MaterialController.SearchMaterial,
 );
@@ -70,7 +70,7 @@ privateApi.get(
   SupplierController.GetAllSupplier,
 );
 privateApi.get(
-  "/api/supplier",
+  "/api/supplier/filter",
   checkJWT.forAdmin,
   SupplierController.SearchSupplier,
 );
@@ -93,9 +93,9 @@ privateApi.delete(
 );
 privateApi.get("/api/supply", checkJWT.forAdmin, SupplyController.getAllSupply);
 privateApi.get(
-  "/api/supply",
+  "/api/supply/filter",
   checkJWT.forAdmin,
-  SupplierController.SearchSupplier,
+  SupplyController.SearchSupply,
 );
 
 // CRUD CAKE
@@ -111,7 +111,7 @@ privateApi.put(
   uploadCakePhoto.single("photo"),
   CakeController.UpdateCake,
 );
-privateApi.put("/api/cake", checkJWT.forAdmin, CakeController.SearchCake);
+privateApi.get("/api/cake/filter", checkJWT.forAdmin, CakeController.SearchCake);
 privateApi.delete(
   "/api/cake/:id",
   checkJWT.forAdmin,
@@ -126,8 +126,9 @@ privateApi.put(
   checkJWT.forCashier,
   OrderController.UpdateOrder,
 );
-privateApi.get("/api/order", checkJWT.forCashier, OrderController.CreateOrder);
-privateApi.get("/api/order", checkJWT.forCashier, OrderController.FilterOrder);
+privateApi.delete("/api/order/:id", checkJWT.forCashier, OrderController.DeleteOrder)
+privateApi.get("/api/order", checkJWT.forCashier, OrderController.GetAllOrder);
+privateApi.get("/api/order/filter", checkJWT.forCashier, OrderController.FilterOrder);
 
 // CRUD COMPOSITION
 privateApi.post(
@@ -146,12 +147,12 @@ privateApi.get(
   CompositionController.GetComposition,
 );
 privateApi.get(
-  "/api/composition",
+  "/api/composition/filter",
   checkJWT.forAdmin,
   CompositionController.SearchComposition,
 );
 privateApi.delete(
-  "/api/commposition/:id",
+  "/api/composition/:id",
   checkJWT.forAdmin,
   CompositionController.DeleteComposition,
 );
